@@ -1,0 +1,13 @@
+# run: conda env create --file environment.yml
+name: EQProject
+channels:
+  - conda-forge
+dependencies:
+  - python=3
+  - numpy
+  - matplotlib
+  - scipy
+  - pip:
+    - pyqt5
+    - pyqt5ac
+    - pyyaml
