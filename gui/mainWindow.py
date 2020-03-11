@@ -13,6 +13,8 @@ from util.fileDialog import FileDialog
 
 logger = logging.getLogger(__name__)
 
+# test comment in online commit
+
 # class for main window of UI
 class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
     def __init__(self, parent=None):
