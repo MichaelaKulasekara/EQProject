@@ -1,6 +1,8 @@
 import os
 import logging
 import numpy as np
+import audiofile as af
+import ffmpeg
 
 import yaml
 from PyQt5.QtCore import *
@@ -99,4 +101,21 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
     def on_gainSlider_band5_valueChanged(self, value):
         print('Band 5 Gain: %d' % value + '%')
         self.gainLabel5.setText('Band 5 Gain: %d' % value + '%')
+
+    @pyqtSlot()
+    def on_uploadAudio_clicked(self):
+        fullPath, filterReturn = FileDialog.getOpenFileName(self, 'Select .wav file', self.defaultOpenPath, '*.wav')
+        print(fullPath)
+        self.filenameData = util.splitext((os.path.basename(fullPath)))
+        filename = self.filenameData[0] + self.filenameData[1]
+        print('Audio File Grabbed: ' + filename)
+        sig, fs = af.read(filename)
+        print('Original Sampling Rate: ' + str(fs) + ' Hz')
+
+
+
+
+
+
+
 
