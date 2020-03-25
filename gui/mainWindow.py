@@ -3,6 +3,9 @@ import logging
 import numpy as np
 import audiofile as af
 import ffmpeg
+import pygame
+import time
+
 
 import yaml
 from PyQt5.QtCore import *
@@ -22,6 +25,10 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         self.setupUi(self)
         self.setDefaults()
         self.loadSettings()
+
+        self.ctl = " "
+        self.filenameData = " "
+        self.filename = " "
 
     def loadSettings(self):
         settings = QSettings(constants.applicationName, constants.organizationName)
@@ -74,43 +81,78 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         self.gainLabel3.setText('Band 3 Gain: 100%')
         self.gainLabel4.setText('Band 4 Gain: 100%')
         self.gainLabel5.setText('Band 5 Gain: 100%')
-
+        pygame.init()
+        pygame.mixer.init()
 
     @pyqtSlot(int)
     def on_gainSlider_band1_valueChanged(self, value):
-        print('Band 1 Gain: %d' % value + '%')
         self.gainLabel1.setText('Band 1 Gain: %d' % value + '%')
 
 
     @pyqtSlot(int)
     def on_gainSlider_band2_valueChanged(self, value):
-        print('Band 2 Gain: %d' % value + '%')
         self.gainLabel2.setText('Band 2 Gain: %d' % value + '%')
 
     @pyqtSlot(int)
     def on_gainSlider_band3_valueChanged(self, value):
-        print('Band 3 Gain: %d' % value + '%')
         self.gainLabel3.setText('Band 3 Gain: %d' % value + '%')
 
     @pyqtSlot(int)
     def on_gainSlider_band4_valueChanged(self, value):
-        print('Band 4 Gain: %d' % value + '%')
         self.gainLabel4.setText('Band 4 Gain: %d' % value + '%')
 
     @pyqtSlot(int)
     def on_gainSlider_band5_valueChanged(self, value):
-        print('Band 5 Gain: %d' % value + '%')
         self.gainLabel5.setText('Band 5 Gain: %d' % value + '%')
 
     @pyqtSlot()
     def on_uploadAudio_clicked(self):
-        fullPath, filterReturn = FileDialog.getOpenFileName(self, 'Select .wav file', self.defaultOpenPath, '*.wav')
-        print(fullPath)
-        self.filenameData = util.splitext((os.path.basename(fullPath)))
-        filename = self.filenameData[0] + self.filenameData[1]
-        print('Audio File Grabbed: ' + filename)
-        sig, fs = af.read(filename)
+        self.fullPath, filterReturn = FileDialog.getOpenFileName(self, 'Select .wav file', self.defaultOpenPath, '*.wav')
+        print(self.fullPath)
+        self.filenameData = util.splitext((os.path.basename(self.fullPath)))
+        self.filename = self.filenameData[0] + self.filenameData[1]
+        pygame.mixer.music.load(self.fullPath)
+        print('Audio File Grabbed: ' + self.filename)
+        self.audioLabel.setText('Audio File: ' + self.filename)
+        sig, fs = af.read(self.filename)
         print('Original Sampling Rate: ' + str(fs) + ' Hz')
+        self.fsLabel.setText('Original Sampling Rate: ' + str(fs) + ' Hz')
+
+
+    @pyqtSlot()
+    def on_playButton_clicked(self):
+        if self.ctl == " ":
+            self.ctl = "start play"
+            print(self.ctl)
+            pygame.mixer.music.play(0)
+        elif self.ctl == "pause":
+            self.ctl = "resume play"
+            print("resume play")
+            pygame.mixer.music.unpause()
+
+    @pyqtSlot()
+    def on_pauseButton_clicked(self):
+        self.ctl = "paused"
+        print(self.ctl)
+        pygame.mixer.music.pause()
+
+    @pyqtSlot()
+    def on_stopButton_clicked(self):
+        self.ctl = " "
+        print("stopped")
+        pygame.mixer.music.stop()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
