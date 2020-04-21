@@ -18,8 +18,8 @@ class SliceWidget(FigureCanvas):
         self.axes = figure.add_axes((0, 0, 1, 1), facecolor='black')
 
         # Hide the x and y axis, we just want to see the image
-        self.axes.get_xaxis().set_visible(False)
-        self.axes.get_yaxis().set_visible(False)
+        self.axes.get_xaxis().set_visible(True)
+        self.axes.get_yaxis().set_visible(True)
 
         # Initialize the parent FigureCanvas
         FigureCanvas.__init__(self, figure)
@@ -27,7 +27,7 @@ class SliceWidget(FigureCanvas):
 
         # Set background of the widget to be close to black
         # The color is not made actually black so that the user can distinguish the image bounds from the figure bounds
-        self.setStyleSheet('background-color: #222222;')
+        self.setStyleSheet('background-color: #FFFFFF;')
 
         # Set widget to have strong focus to receive key press events
         self.setFocusPolicy(Qt.StrongFocus)
