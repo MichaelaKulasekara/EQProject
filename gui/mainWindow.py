@@ -36,12 +36,9 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         self.sig = 0
         self.order = 5
 
-        self.lowcut1 = 20
-
         nyq = 0.5 * self.fs
-        self.low1 = self.lowcut1 / nyq
         self.high1 = self.highcut1 / nyq
-        self.b1, self.a1 = butter(self.order, [self.low1, self.high1], btype='bandpass')
+        self.b1, self.a1 = signal.butter(self.order, self.high1, 'low')
         self.filteredSig1 = lfilter(self.b1, self.a1, self.sig, axis=-1)
         self.filteredSig1 = self.gainSlider_band1.value() / 100 * self.filteredSig1
 
@@ -70,7 +67,7 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         nyq = 0.5 * self.fs
         self.low5 = self.lowcut5 / nyq
         self.high5 = self.highcut5 / nyq
-        self.b5, self.a5 = butter(self.order, [self.low5, self.high5], btype='bandpass')
+        self.b5, self.a5 = butter(self.order, [self.low5, self.high5], btype='high')
         self.filteredSig5 = lfilter(self.b5, self.a5, self.sig, axis=-1)
         self.filteredSig5 = self.gainSlider_band5.value() / 100 * self.filteredSig5
 
