@@ -33,46 +33,8 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         self.filenameData = " "
         self.filename = " "
         self.fs = 44100
-        self.sig = 0
         self.order = 5
-
-        nyq = 0.5 * self.fs
-        self.high1 = self.highcut1 / nyq
-        self.b1, self.a1 = signal.butter(self.order, self.high1, 'low')
-        self.filteredSig1 = lfilter(self.b1, self.a1, self.sig, axis=-1)
-        self.filteredSig1 = self.gainSlider_band1.value() / 100 * self.filteredSig1
-
-        nyq = 0.5 * self.fs
-        self.low2 = self.lowcut2 / nyq
-        self.high2 = self.highcut2 / nyq
-        self.b2, self.a2 = signal.butter(self.order, [self.low2, self.high2], btype='bandpass')
-        self.filteredSig2 = lfilter(self.b2, self.a2, self.sig, axis=-1)
-        self.filteredSig2 = self.gainSlider_band2.value() / 100 * self.filteredSig2
-
-        nyq = 0.5 * self.fs
-        self.low3 = self.lowcut3 / nyq
-        self.high3 = self.highcut3 / nyq
-        self.b3, self.a3 = butter(self.order, [self.low3, self.high3], btype='bandpass')
-        self.filteredSig3 = lfilter(self.b3, self.a3, self.sig, axis=-1)
-        self.filteredSig3 = self.gainSlider_band3.value() / 100 * self.filteredSig3
-
-        nyq = 0.5 * self.fs
-        self.low4 = self.lowcut4 / nyq
-        self.high4 = self.highcut4 / nyq
-        self.b4, self.a4 = butter(self.order, [self.low4, self.high4], btype='bandpass')
-        self.filteredSig4 = lfilter(self.b4, self.a4, self.sig, axis=-1)
-        self.filteredSig4 = self.gainSlider_band4.value() / 100 * self.filteredSig4
-
-        self.highcut5 = 20000
-        nyq = 0.5 * self.fs
-        self.low5 = self.lowcut5 / nyq
-        self.high5 = self.highcut5 / nyq
-        self.b5, self.a5 = butter(self.order, [self.low5, self.high5], btype='high')
-        self.filteredSig5 = lfilter(self.b5, self.a5, self.sig, axis=-1)
-        self.filteredSig5 = self.gainSlider_band5.value() / 100 * self.filteredSig5
-
-        self.newSig = pygame.mixer.sound(
-        self.filteredSig1 + self.filteredSig2 + self.filteredSig3 + self.filteredSig4 + self.filteredSig5)
+        self.nyq = 0.5 * self.fs
 
     def loadSettings(self):
         settings = QSettings(constants.applicationName, constants.organizationName)
@@ -118,14 +80,14 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         self.highcut2 = 999
         self.highcut3 = 2499
         self.highcut4 = 4999
-        self.leftCutLabel2.setText("300 Hz")
-        self.leftCutLabel3.setText("1000 Hz")
-        self.leftCutLabel4.setText("2500 Hz")
-        self.leftCutLabel5.setText("5000 Hz")
-        self.rightCutLabel1.setText("299 Hz")
-        self.rightCutLabel2.setText("999 Hz")
-        self.rightCutLabel3.setText("2499 Hz")
-        self.rightCutLabel4.setText("4999 Hz")
+        self.leftCutLabel2.setText("Band 2 Left Cutoff: 300 Hz")
+        self.leftCutLabel3.setText("Band 3 Left Cutoff: 1000 Hz")
+        self.leftCutLabel4.setText("Band 4 Left Cutoff: 2500 Hz")
+        self.leftCutLabel5.setText("Band 5 Left Cutoff: 5000 Hz")
+        self.rightCutLabel1.setText("Band 1 Right Cutoff: 299 Hz")
+        self.rightCutLabel2.setText("Band 2 Right Cutoff: 999 Hz")
+        self.rightCutLabel3.setText("Band 3 Right Cutoff: 2499 Hz")
+        self.rightCutLabel4.setText("Band 4 Right Cutoff: 4999 Hz")
 
         pygame.init()
         pygame.mixer.init()
@@ -301,6 +263,39 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
         self.ctl = " "
         print("stopped")
         pygame.mixer.music.stop()
+
+    def eq_5band(self):
+        nyq = 0.5 * self.fs
+        self.highcut1 = self.highcut1 / nyq
+        self.b1, self.a1 = signal.butter(self.order, self.highcut1, btype='low')
+        self.filteredSig1 = lfilter(self.b1, self.a1, self.sig)
+        self.filteredSig1 = self.gainSlider_band1.value() / 100 * self.filteredSig1
+
+        self.lowcut2 = self.lowcut2 / nyq
+        self.highcut2 = self.highcut2 / nyq
+        self.b2, self.a2 = signal.butter(self.order, [self.lowcut2, self.highcut2], btype='bandpass')
+        self.filteredSig2 = lfilter(self.b2, self.a2, self.sig)
+        self.filteredSig2 = self.gainSlider_band2.value() / 100 * self.filteredSig2
+
+        self.lowcut3 = self.lowcut3 / nyq
+        self.highcut3 = self.highcut3 / nyq
+        self.b3, self.a3 = butter(self.order, [self.lowcut3, self.high3cut], btype='bandpass')
+        self.filteredSig3 = lfilter(self.b3, self.a3, self.sig)
+        self.filteredSig3 = self.gainSlider_band3.value() / 100 * self.filteredSig3
+
+        self.lowcut4 = self.lowcut4 / nyq
+        self.highcut4 = self.highcut4 / nyq
+        self.b4, self.a4 = butter(self.order, [self.lowcut4, self.highcut4], btype='bandpass')
+        self.filteredSig4 = lfilter(self.b4, self.a4, self.sig)
+        self.filteredSig4 = self.gainSlider_band4.value() / 100 * self.filteredSig4
+
+        self.lowcut5 = self.lowcut5 / nyq
+        self.b5, self.a5 = butter(self.order, self.lowcut5, btype='high')
+        self.filteredSig5 = lfilter(self.b5, self.a5, self.sig)
+        self.filteredSig5 = self.gainSlider_band5.value() / 100 * self.filteredSig5
+
+        self.newSig = pygame.mixer.sound(
+        self.filteredSig1 + self.filteredSig2 + self.filteredSig3 + self.filteredSig4 + self.filteredSig5)
 
 
 

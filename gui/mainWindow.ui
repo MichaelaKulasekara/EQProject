@@ -69,7 +69,7 @@
           <x>0</x>
           <y>0</y>
           <width>1079</width>
-          <height>276</height>
+          <height>284</height>
          </rect>
         </property>
         <widget class="QSlider" name="gainSlider_band1">
@@ -411,7 +411,7 @@
           <rect>
            <x>460</x>
            <y>110</y>
-           <width>121</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -430,7 +430,7 @@
           <rect>
            <x>460</x>
            <y>160</y>
-           <width>111</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -449,7 +449,7 @@
           <rect>
            <x>460</x>
            <y>60</y>
-           <width>111</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -468,7 +468,7 @@
           <rect>
            <x>460</x>
            <y>9</y>
-           <width>111</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -487,7 +487,7 @@
           <rect>
            <x>220</x>
            <y>110</y>
-           <width>121</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -506,7 +506,7 @@
           <rect>
            <x>220</x>
            <y>160</y>
-           <width>111</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -525,7 +525,7 @@
           <rect>
            <x>220</x>
            <y>210</y>
-           <width>111</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
@@ -544,7 +544,7 @@
           <rect>
            <x>220</x>
            <y>60</y>
-           <width>111</width>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
