@@ -266,33 +266,45 @@ class MainWindow(QMainWindow, mainWindow_ui.Ui_MainWindow):
 
     def eq_5band(self):
         nyq = 0.5 * self.fs
+
         self.highcut1 = self.highcut1 / nyq
-        self.b1, self.a1 = signal.butter(self.order, self.highcut1, btype='low')
-        self.filteredSig1 = lfilter(self.b1, self.a1, self.sig)
-        self.filteredSig1 = self.gainSlider_band1.value() / 100 * self.filteredSig1
+        b1, a1 = signal.butter(5, self.highcut1, 'low')
+        w1, h1 = signal.freqz(b1, a1)
 
         self.lowcut2 = self.lowcut2 / nyq
         self.highcut2 = self.highcut2 / nyq
-        self.b2, self.a2 = signal.butter(self.order, [self.lowcut2, self.highcut2], btype='bandpass')
-        self.filteredSig2 = lfilter(self.b2, self.a2, self.sig)
-        self.filteredSig2 = self.gainSlider_band2.value() / 100 * self.filteredSig2
+        b2, a2 = signal.butter(4, [self.lowcut2, self.highcut2], 'bandpass')
+        w2, h2 = signal.freqz(b2, a2)
 
         self.lowcut3 = self.lowcut3 / nyq
         self.highcut3 = self.highcut3 / nyq
-        self.b3, self.a3 = butter(self.order, [self.lowcut3, self.high3cut], btype='bandpass')
-        self.filteredSig3 = lfilter(self.b3, self.a3, self.sig)
-        self.filteredSig3 = self.gainSlider_band3.value() / 100 * self.filteredSig3
+        b3, a3 = signal.butter(7, [self.lowcut3, self.highcut3], 'bandpass')
+        w3, h3 = signal.freqz(b3, a3)
 
         self.lowcut4 = self.lowcut4 / nyq
         self.highcut4 = self.highcut4 / nyq
-        self.b4, self.a4 = butter(self.order, [self.lowcut4, self.highcut4], btype='bandpass')
-        self.filteredSig4 = lfilter(self.b4, self.a4, self.sig)
-        self.filteredSig4 = self.gainSlider_band4.value() / 100 * self.filteredSig4
+        b4, a4 = signal.butter(8, [self.lowcut4, self.highcut4], 'bandpass')
+        w4, h4 = signal.freqz(b4, a4)
 
         self.lowcut5 = self.lowcut5 / nyq
-        self.b5, self.a5 = butter(self.order, self.lowcut5, btype='high')
-        self.filteredSig5 = lfilter(self.b5, self.a5, self.sig)
-        self.filteredSig5 = self.gainSlider_band5.value() / 100 * self.filteredSig5
+        b5, a5 = signal.butter(10, self.lowcut5, 'highpass')
+        w5, h5 = signal.freqz(b5, a5)
+
+        w1 = w1 * nyq / (np.pi)
+        w2 = w2 * nyq / (np.pi)
+        w3 = w3 * nyq / (np.pi)
+        w4 = w4 * nyq / (np.pi)
+        w5 = w5 * nyq / (np.pi)
+        h1 = 20 * np.log10(abs(h1))
+        h2 = 20 * np.log10(abs(h2))
+        h3 = 20 * np.log10(abs(h3))
+        h4 = 20 * np.log10(abs(h4))
+        h5 = 20 * np.log10(abs(h5))
+
+        plt.semilogx(w1, h1, w2, h2, w3, h3, w4, h4, w5, h5)
+        axes = plt.gca()
+        axes.set_ylim([-40, 10])
+        plt.show()
 
         self.newSig = pygame.mixer.sound(
         self.filteredSig1 + self.filteredSig2 + self.filteredSig3 + self.filteredSig4 + self.filteredSig5)
