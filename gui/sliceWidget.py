@@ -9,6 +9,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from matplotlib.figure import Figure
 import matplotlib.patches as patches
 from PyQt5.Qt import *
+import matplotlib.pyplot as plt
 
 
 class SliceWidget(FigureCanvas):
@@ -43,10 +44,7 @@ class SliceWidget(FigureCanvas):
         FigureCanvas.updateGeometry(self)
 
 
-    def updateFigure(self):
-        # Clear the axes
-        self.axes.cla()
 
-        # Draw the figure now
-        self.draw()
+
+
 

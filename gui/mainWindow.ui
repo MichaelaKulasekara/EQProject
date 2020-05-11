@@ -69,7 +69,7 @@
           <x>0</x>
           <y>0</y>
           <width>1079</width>
-          <height>284</height>
+          <height>278</height>
          </rect>
         </property>
         <widget class="QSlider" name="gainSlider_band1">
@@ -824,7 +824,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>150</y>
+           <y>180</y>
            <width>31</width>
            <height>23</height>
           </rect>
@@ -837,7 +837,7 @@
          <property name="geometry">
           <rect>
            <x>60</x>
-           <y>150</y>
+           <y>180</y>
            <width>31</width>
            <height>23</height>
           </rect>
@@ -856,7 +856,7 @@
          <property name="geometry">
           <rect>
            <x>90</x>
-           <y>150</y>
+           <y>180</y>
            <width>31</width>
            <height>23</height>
           </rect>
@@ -869,6 +869,19 @@
          </property>
          <property name="text">
           <string>	■</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="processAudioButton">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>148</y>
+           <width>91</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Process Audio</string>
          </property>
         </widget>
        </widget>
